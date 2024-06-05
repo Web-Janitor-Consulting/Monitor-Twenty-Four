@@ -204,3 +204,27 @@ if ( ! function_exists( 'monitortwentyfour_pattern_categories' ) ) :
 endif;
 
 add_action( 'init', 'monitortwentyfour_pattern_categories' );
+
+
+
+/**
+ * Enqueue scripts and styles for maps.
+ 
+ */
+
+ add_action( 'template_redirect', 'plugin_is_page' );
+
+function plugin_is_page() {
+    if ( is_page_template( 'page-map' ) ) {
+        wp_enqueue_script( 'wjc-mapbox', 'https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js', [], null, true );
+        wp_enqueue_script( 'wjc-mapbox-geocoder', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.2/mapbox-gl-geocoder.min.js', array('wjc-mapbox'), null, true );
+		wp_enqueue_script( 'wjc-mapbox-legend', 'https://unpkg.com/mapboxgl-legend@1.14.0/dist/index.umd.js', array('wjc-mapbox'), null, true );
+		wp_enqueue_style( 'wjc-mapbox-style', 'https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css', [], null, 'all' );
+		wp_enqueue_style( 'wjc-mapbox-style-legend', 'https://unpkg.com/mapboxgl-legend@1.14.0/dist/style.css', array('wjc-mapbox-style'), null, 'all' );
+		wp_enqueue_style( 'wjc-mapbox-style-geocoder', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.2/mapbox-gl-geocoder.css', array('wjc-mapbox-style'), null, 'all' );
+    }
+
+	if ( is_page( 'tampa-land-use-map' ) ) {
+		wp_enqueue_script( 'wjc-mapbox-land-use', get_stylesheet_directory_uri() . '/assets/js/land-use.js', array('wjc-mapbox-legend'), null, true);
+}
+}
