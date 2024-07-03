@@ -224,7 +224,26 @@ function plugin_is_page() {
 		wp_enqueue_style( 'wjc-mapbox-style-geocoder', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.2/mapbox-gl-geocoder.css', array('wjc-mapbox-style'), null, 'all' );
     }
 
-	if ( is_page( 'tampa-land-use-map' ) ) {
+	if ( is_page_template( 'page-map' ) ) {
 		wp_enqueue_script( 'wjc-mapbox-land-use', get_stylesheet_directory_uri() . '/assets/js/land-use.js', array('wjc-mapbox-legend'), null, true);
 }
 }
+
+/**
+ * Enqueue style.css
+ */
+
+function monitortwentyfour_enqueue_styles() {
+	wp_enqueue_style( 'monitortwentyfour-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
+}
+add_action( 'wp_enqueue_scripts', 'monitortwentyfour_enqueue_styles' );
+
+ 
+
+
+// Enable SVG support
+function wjc_add_mime_types($mimes) {
+	$mimes['svg'] = 'image/svg+xml';
+	return $mimes;
+}
+add_filter('upload_mimes', 'wjc_add_mime_types');
